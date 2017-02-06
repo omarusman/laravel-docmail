@@ -11,6 +11,7 @@ class DocmailMailing implements \ArrayAccess
 
     protected $CustomerApplication = '';
     protected $ProductType = 'A4Letter'; /* A4Letter, A3FoldedSheet, GreetingCard, Postcard */
+    protected $DocumentType = 'A4Letter'; /* A4Letter, BusinessCard, GreetingCardA5, PostcardA5, PostcardA6, PostcardA5Right or PostcardA6Right */
     protected $MailingName = '';
     protected $MailingDescription = '';
     protected $IsMono = true;
@@ -58,8 +59,8 @@ class DocmailMailing implements \ArrayAccess
     }
 
     /**
-     * Specify as “A4Letter”, “A3FoldedSheet”, “GreetingCard”, or “Postcard”. If not supplied then uses
-     * the “Default product” selected on the account details screen in the Docmail website. The product type must
+     * Specify as A4Letter, A3FoldedSheet, GreetingCard, or Postcard. If not supplied then uses
+     * the Default product selected on the account details screen in the Docmail website. The product type must
      * be available for your account, please see the Docmail website to confirm the products available.
      *
      * @param string $ProductType
@@ -70,6 +71,29 @@ class DocmailMailing implements \ArrayAccess
         $this->ProductType = $ProductType;
         return $this;
     }
+
+    /**
+     * Get DocumentType.
+     *
+     * @return string
+     */
+    public function getDocumentType()
+    {
+        return $this->DocumentType;
+    }
+
+    /**
+     * Specify as A4Letter, BusinessCard, GreetingCardA5, PostcardA5, PostcardA6, PostcardA5Right or PostcardA6Right.
+     *
+     * @param string $DocumentType
+     * @return DocmailMailing
+     */
+    public function setDocumentType($DocumentType)
+    {
+        $this->DocumentType = $DocumentType;
+        return $this;
+    }
+
 
     /**
      * @return string
@@ -160,8 +184,8 @@ class DocmailMailing implements \ArrayAccess
     }
 
     /**
-     * Specify the postal option as “First” or “Standard”, plus add “Returns” to enable returns management and add
-     * “Dotpost” to enable Dotpost, e.g. “StandardReturnsDotpost”. If not supplied then the postal option specified
+     * Specify the postal option as First or Standard, plus add Returns to enable returns management and add
+     * Dotpost to enable Dotpost, e.g. StandardReturnsDotpost. If not supplied then the postal option specified
      * in default mailing options is used.
      *
      * @param string $DeliveryType
@@ -236,7 +260,7 @@ class DocmailMailing implements \ArrayAccess
     }
 
     /**
-     * A prefix for the address name, e.g. “To the parent of”.
+     * A prefix for the address name, e.g. To the parent of.
      *
      * @param string $AddressNamePrefix
      * @return DocmailMailing
@@ -256,8 +280,8 @@ class DocmailMailing implements \ArrayAccess
     }
 
     /**
-     * Specify as “Full Name”, “Firstname Surname”, “Title Initial Surname”, “Title Surname”,
-     * or “Title Firstname Surname”. If not supplied then defaults as specified in default mailing options.
+     * Specify as Full Name, Firstname Surname, Title Initial Surname, Title Surname,
+     * or Title Firstname Surname. If not supplied then defaults as specified in default mailing options.
      *
      * @param string $AddressNameFormat
      * @return DocmailMailing
@@ -295,7 +319,7 @@ class DocmailMailing implements \ArrayAccess
     }
 
     /**
-     * Specify as “C4”, “C5” or leave blank. If not supplied then defaults as specified in default mailing options.
+     * Specify as C4, C5 or leave blank. If not supplied then defaults as specified in default mailing options.
      *
      * @param string $MinEnvelopeSize
      * @return DocmailMailing
