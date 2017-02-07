@@ -1,4 +1,4 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 trait DocmailArrayAccessTrait
 {

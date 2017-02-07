@@ -1,9 +1,9 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 /**
  * Class DocmailMailing
- * @package Hpolthof\Docmail
- * @author Paul Olthof <hpolthof@gmail.com>
+ * @package Oozman\Docmail
+ * @author Omar Usman <hello@omarusman.com>
  */
 class DocmailMailing implements \ArrayAccess
 {

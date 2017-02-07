@@ -1,11 +1,11 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 use Illuminate\Support\Collection;
 
 /**
  * Class DocmailService
- * @package Hpolthof\Docmail
- * @author Paul Olthof <hpolthof@gmail.com>
+ * @package Oozman\Docmail
+ * @author Omar Usman <hello@omarusman.com>
  */
 class DocmailService
 {
@@ -98,7 +98,7 @@ class DocmailService
      */
     public function sendFile($filename, \Closure $handler)
     {
-        $instance = new \Hpolthof\Docmail\DocmailService();
+        $instance = new \Oozman\Docmail\DocmailService();
         $instance->setTemplate(DocmailTemplateFile::loadFromFile($filename));
         $handler($instance);
         
@@ -124,7 +124,7 @@ class DocmailService
         $template->setFileName($filename);
         $template->setFileData($data);
 
-        $instance = new \Hpolthof\Docmail\DocmailService();
+        $instance = new \Oozman\Docmail\DocmailService();
         $instance->setTemplate($template);
         $handler($instance);
 

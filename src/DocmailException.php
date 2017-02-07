@@ -1,4 +1,4 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 
 class DocmailException extends \Exception

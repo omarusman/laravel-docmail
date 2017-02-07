@@ -12,19 +12,19 @@ composer require hpolthof/laravel-docmail
 Next, open your ```config/app.php``` file and add the following service provider:
 
 ```
-\Hpolthof\Docmail\DocmailServiceProvider::class,
+\Oozman\Docmail\DocmailServiceProvider::class,
 ``` 
 
 Then add the following facade to your list of aliases:
 
 ```
-'Docmail'   => \Hpolthof\Docmail\DocmailFacade::class,
+'Docmail'   => \Oozman\Docmail\DocmailFacade::class,
 ```
 
 ## Usage
 
 ```
-\Docmail::sendFile(storage_path('temp/test.pdf'), function(\Hpolthof\Docmail\DocmailService $docmail) {
+\Docmail::sendFile(storage_path('temp/test.pdf'), function(\Oozman\Docmail\DocmailService $docmail) {
     // Name the mailing, defaults to the OrderRef.
     $docmail->getMailing()->setMailingName('Test Mailing');
     

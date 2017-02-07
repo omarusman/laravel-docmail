@@ -1,9 +1,9 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 /**
  * Class DocmailTemplateFile
- * @package Hpolthof\Docmail
- * @author Paul Olthof <hpolthof@gmail.com>
+ * @package Oozman\Docmail
+ * @author Omar Usman <hello@omarusman.com>
  */
 class DocmailTemplateFile implements \ArrayAccess
 {
@@ -110,7 +110,7 @@ class DocmailTemplateFile implements \ArrayAccess
     }
 
     /**
-     * Specify as “A4Letter”, “A44PageBooklet”, “GreetingCardA5”, “PostcardA5”, “PostcardA6”, “PostcardA5Right” or “PostcardA6Right”.
+     * Specify as ï¿½A4Letterï¿½, ï¿½A44PageBookletï¿½, ï¿½GreetingCardA5ï¿½, ï¿½PostcardA5ï¿½, ï¿½PostcardA6ï¿½, ï¿½PostcardA5Rightï¿½ or ï¿½PostcardA6Rightï¿½.
      * Postcard A5 and A6 have a left side address panel; use the Right variations for a right side address panel. The
      * document type must be valid for the product type supplied when calling Create Mailing. The document type must be
      * available for your account, please see the Docmail website to confirm the document types available.
@@ -159,7 +159,7 @@ class DocmailTemplateFile implements \ArrayAccess
      * "Courier 13", "Courier 14", "Gotham 9", "Gotham 10", "Gotham 12", "Helvetica 12", "Helvetica 13", "Helvetica 14",
      * "MetaOT 10", "MetaOT 11", "MetaOT 12", "Trebuchet 10", "Trebuchet 11", "Trebuchet 12", "Verdana 10",
      * "Verdana 11", or "Verdana 12".
-     * Defaults to “Arial 10”.
+     * Defaults to ï¿½Arial 10ï¿½.
      *
      * @param mixed $AddressFontCode
      * @return DocmailTemplateFile

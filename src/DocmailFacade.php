@@ -1,4 +1,4 @@
-<?php namespace Hpolthof\Docmail;
+<?php namespace Oozman\Docmail;
 
 
 use Illuminate\Support\Facades\Facade;

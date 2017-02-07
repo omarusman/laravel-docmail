@@ -1,16 +1,16 @@
 {
-  "name": "hpolthof/laravel-docmail",
+  "name": "omarusman/laravel-docmail",
   "description": "An laravel implementation for Docmail.",
   "keywords": [
     "laravel", "docmail"
   ],
-  "homepage": "https://github.com/hpolthof/laravel-docmail",
+  "homepage": "https://github.com/omarusman/laravel-docmail",
   "license": "MIT",
   "authors": [
     {
-      "name": "Paul Olthof",
-      "email": "hpolthof@gmail.com",
-      "homepage": "https://github.com/hpolthof",
+      "name": "Omar Usman",
+      "email": "hello@omarusman.com",
+      "homepage": "https://github.com/omarusman",
       "role": "Developer"
     }
   ],
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Hpolthof\\Docmail\\": "src"
+      "Oozman\\Docmail\\": "src"
     }
   },
   "minimum-stability": "stable",
