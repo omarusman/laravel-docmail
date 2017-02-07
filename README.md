@@ -6,7 +6,7 @@ This packages provides an interface to the mail services of [Docmail](https://ww
 You can install this package using [Composer](https://www.getcomposer.org/). Go to your commandline and run in the root of your project:
 
 ```
-composer require hpolthof/laravel-docmail
+composer require omarusman/laravel-docmail
 ```
 
 Next, open your ```config/app.php``` file and add the following service provider:
