@@ -13,7 +13,7 @@ class DocmailServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config/docmail.php' => config_path('docmail.php'),
+            __DIR__ . '/config/docmail.php' => config_path('docmail.php'),
         ]);
     }
 
@@ -29,7 +29,7 @@ class DocmailServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(
-            __DIR__.'/config/docmail.php', 'docmail'
+            __DIR__ . '/config/docmail.php', 'docmail'
         );
     }
 }

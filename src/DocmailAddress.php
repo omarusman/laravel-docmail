@@ -59,7 +59,9 @@ class DocmailAddress implements \ArrayAccess
     {
         $address = new static;
         $address->setFullname($fullname);
-        for($i = 1; $i <= 4; $i++) $address->{'Address'.$i} = eval('return $address'.$i.';');
+        for ($i = 1; $i <= 4; $i++) {
+            $address->{'Address' . $i} = eval('return $address' . $i . ';');
+        }
         return $address;
     }
 

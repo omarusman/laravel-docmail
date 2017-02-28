@@ -41,11 +41,11 @@ class DocmailService
      */
     public function send()
     {
-        if(!$this->mailing instanceof DocmailMailing) {
+        if (!$this->mailing instanceof DocmailMailing) {
             throw new DocmailException('No mailing was set. You\'ll need to set and mailing before calling send(). Use setMailing().');
         }
 
-        if($this->addresses->count() == 0) {
+        if ($this->addresses->count() == 0) {
             throw new DocmailException('No addresses where added. Please add at lease one address before calling send(). Use addAddress().');
         }
 
@@ -55,21 +55,21 @@ class DocmailService
         $result = $this->callCreateMailing();
 
         // AddAddress
-        if($result) {
+        if ($result) {
             $result = $this->callAddAddress();
         }
 
         // AddTemplateFile
-        if($result) {
+        if ($result) {
             $result = $this->callAddTemplateFile();
         }
 
         // ProcessMailing
-        if($result) {
+        if ($result) {
             $result = $this->callProcessMailing();
         }
 
-        if(!$result && strlen($this->MailingGUID) > 0) {
+        if (!$result && strlen($this->MailingGUID) > 0) {
             // Remove Mailing
             $this->deleteMailing($this->MailingGUID);
         }
@@ -101,9 +101,9 @@ class DocmailService
         $instance = new \Oozman\Docmail\DocmailService();
         $instance->setTemplate(DocmailTemplateFile::loadFromFile($filename));
         $handler($instance);
-        
+
         $result = $instance->send();
-        if($result) {
+        if ($result) {
             return $instance;
         }
         return null;
@@ -129,7 +129,7 @@ class DocmailService
         $handler($instance);
 
         $result = $instance->send();
-        if($result) {
+        if ($result) {
             return $instance;
         }
         return null;
@@ -178,12 +178,12 @@ class DocmailService
     public function getProofFile()
     {
         $response = base64_decode($this->doApiCall('GetProofFile', $this->mergeRequestParameters([])));
-        if(substr($response, 0, 5) == 'Error') {
+        if (substr($response, 0, 5) == 'Error') {
             return null;
         }
         return $response;
     }
-    
+
     /**
      * @return DocmailMailing
      */
@@ -237,22 +237,23 @@ class DocmailService
         return $this->addresses->all();
     }
 
-    private function doApiCall($callName, $params){
+    private function doApiCall($callName, $params)
+    {
 
         $callResult = $this->client->call($callName, $params);
 
-        if($callResult === false) {
+        if ($callResult === false) {
             throw new DocmailException("The SOAP client returned FALSE on call.");
         }
 
-        if(!isset($callResult[$callName."Result"])) {
+        if (!isset($callResult[$callName . "Result"])) {
             throw new DocmailException("The field '{$callName}Result' could not be found in the server response.");
         }
 
-        $this->checkError($callResult[$callName."Result"]);   //parse & check error fields from result as described above
+        $this->checkError($callResult[$callName . "Result"]);   //parse & check error fields from result as described above
         flush();
 
-        return $callResult[$callName."Result"];
+        return $callResult[$callName . "Result"];
     }
 
     protected function callCreateMailing()
@@ -349,7 +350,8 @@ class DocmailService
         return false;
     }
 
-    private function doGetStatus($sUsr,$sPwd,$MailingGUID){
+    private function doGetStatus($sUsr, $sPwd, $MailingGUID)
+    {
 
         ///////////////////////
         // GetStatus - Setup array to pass into webservice call
@@ -364,14 +366,15 @@ class DocmailService
             "ReturnFormat" => "Text"
         );
         // other available params listed here:  (https://www.cfhdocmail.com/TestAPI2/DMWS.asmx?op=GetStatus) returns the status of a mailing from the mailing guid
-        $callResult = $this->doApiCall($callName,$params);
+        $callResult = $this->doApiCall($callName, $params);
 
         //$Status = $this->getResultField($callResult, "Status");
 
         return $callResult;
     }
 
-    private function doWaitForProcessMailingStatus($sUsr,$sPwd,$MailingGUID,$ExpectedStatus,$ExceptionOnFail){
+    private function doWaitForProcessMailingStatus($sUsr, $sPwd, $MailingGUID, $ExpectedStatus, $ExceptionOnFail)
+    {
 
         //poll GetStatus in a loop until the processing has completed
         //loop a maximum of 10 times, with a 10 second delay between iterations.
@@ -379,14 +382,20 @@ class DocmailService
         $i = 0;
         do {
             // other available params listed here:  (https://www.cfhdocmail.com/TestAPI2/DMWS.asmx?op=GetStatus) returns the status of a mailing from the mailing guid
-            $result = $this->doGetStatus($sUsr,$sPwd,$MailingGUID);
+            $result = $this->doGetStatus($sUsr, $sPwd, $MailingGUID);
 
-            $Status = $this->getResultField($result,"Status");
-            $Error = $this->getResultField($result,"Error code");
+            $Status = $this->getResultField($result, "Status");
+            $Error = $this->getResultField($result, "Error code");
             //end loop once processing is complete
-            if ($Status== $ExpectedStatus ){break;}	//success
-            if ($Status== "Error in processing" ){break;}	//error in processing
-            if ($Error ){break;}			//error
+            if ($Status == $ExpectedStatus) {
+                break;
+            }    //success
+            if ($Status == "Error in processing") {
+                break;
+            }    //error in processing
+            if ($Error) {
+                break;
+            }            //error
 
             sleep(10);//wait 10 seconds before repeating
             ++$i;
@@ -405,41 +414,49 @@ class DocmailService
                     "PropertyValue" => $MailingGUID
                 )
             );
-            $result = $this->doApiCall("ExtendedCall" ,$params);
+            $result = $this->doApiCall("ExtendedCall", $params);
         }
 
         if ($Status != $ExpectedStatus) {
-            if ($ExceptionOnFail){
-                throw new DocmailException("<h2>There was an error:</h2> expected status '".$ExpectedStatus."' not reached.  Current status: '".$Status."'<br/>");
+            if ($ExceptionOnFail) {
+                throw new DocmailException("<h2>There was an error:</h2> expected status '" . $ExpectedStatus . "' not reached.  Current status: '" . $Status . "'<br/>");
             }
         }
 
         flush();
     }
 
-    private function checkError($Res){
-        if ($Res == null) return;
-
-        if (is_array($Res))	reset($Res);
-        //check for  the keys 'Error code', 'Error code string' and 'Error message' to test/report errors
-        $errCode = $this->getResultField($Res,"Error code");
-        if($errCode) {
-            $errName = $this->getResultField($Res,"Error code string");
-            $errMsg = $this->getResultField($Res,"Error message");
-            throw new DocmailException($errCode." ".$errName." - ".$errMsg);
+    private function checkError($Res)
+    {
+        if ($Res == null) {
+            return;
         }
-        if (is_array($Res))	reset($Res);
+
+        if (is_array($Res)) {
+            reset($Res);
+        }
+        //check for  the keys 'Error code', 'Error code string' and 'Error message' to test/report errors
+        $errCode = $this->getResultField($Res, "Error code");
+        if ($errCode) {
+            $errName = $this->getResultField($Res, "Error code string");
+            $errMsg = $this->getResultField($Res, "Error message");
+            throw new DocmailException($errCode . " " . $errName . " - " . $errMsg);
+        }
+        if (is_array($Res)) {
+            reset($Res);
+        }
         flush();
     }
 
-    private function getResultField($FldList, $FldName){
+    private function getResultField($FldList, $FldName)
+    {
         // calls return a multi-line string structured as :
         // [KEY]: [VALUE][carriage return][line feed][KEY]: [VALUE][carriage return][line feed][KEY]: [VALUE][carriage return][line feed][KEY]: [VALUE]
-        $lines = explode("\n",$FldList);
-        for ( $lineCounter=0;$lineCounter < count($lines); $lineCounter+=1){
-            $fields = explode(":",$lines[$lineCounter]);
+        $lines = explode("\n", $FldList);
+        for ($lineCounter = 0; $lineCounter < count($lines); $lineCounter += 1) {
+            $fields = explode(":", $lines[$lineCounter]);
             //find matching field name
-            if ($fields[0]==$FldName)	{
+            if ($fields[0] == $FldName) {
                 return ltrim($fields[1], " "); //return value
             }
         }
@@ -452,7 +469,7 @@ class DocmailService
             'Password' => config('docmail.connection.password'),
             'ReturnFormat' => 'Text',
         ];
-        if($guid) {
+        if ($guid) {
             $data['MailingGUID'] = $this->MailingGUID;
         }
 
@@ -461,12 +478,12 @@ class DocmailService
 
     private function mergeRequestParameters($params, $guid = true)
     {
-        if($guid == true && strlen($this->MailingGUID) == 0) {
+        if ($guid == true && strlen($this->MailingGUID) == 0) {
             throw new DocmailException('This call can only be made when a mailing has been send.');
         }
 
         $result = array_merge($params, $this->getRequiredRequestParameters($guid));
-        return array_filter($result, function($v) {
+        return array_filter($result, function ($v) {
             return $v != '';
         });
     }
